@@ -1,98 +1,118 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
-  <title>Antichambre</title>
-  <style>
-    body {
-      background-color: black;
-      font-family: 'Cutive Mono';
-      margin: 0;
-      padding: 0;
-      color: white;
-    }
-
-    .covers {
-      display: flex;
-      gap: 100px;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 40px 0;
-    }
-
-    .cover-block {
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-    }
-
-    .cover-info {
-      width: 200px;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .cover-info h3 {
-      margin: 0 0 12px 0;
-      font-size: 13px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .cover-details {
-      overflow: hidden;
-      max-height: 0;
-      transition: max-height 0.4s ease;
-    }
-
-    .cover-details.open {
-      max-height: 200px;
-    }
-
-    .cover-details p {
-      margin: 0;
-    }
-
-    img {
-      height: 400px;
-      width: auto;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
+<title>Antichambre</title>
+<style>
+body {
+  background-color: black;
+  font-family: 'Cutive Mono';
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+.covers {
+  display: flex;
+  gap: 100px;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 0;
+}
+.cover-block {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+.cover-info {
+  width: 200px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.cover-info h3 {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.cover-details {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s ease;
+}
+.cover-details.open {
+  max-height: 200px;
+}
+.cover-details p {
+  margin: 0;
+}
+img {
+  height: 400px;
+  width: auto;
+}
+.drag-img {
+  position: absolute;
+  cursor: grab;
+  user-select: none;
+}
+.drag-img:active { cursor: grabbing; }
+</style>
 </head>
 <body>
 
-  <div style="width: 100%; background-color: #000; padding: 24px 0; text-align: center;">
-    <img src="logotxt.png" alt="Logo" style="height: 200px; width: auto;">
-  </div>
+<div style="width: 100%; background-color: #000; padding: 24px 0; text-align: center;">
+  <img src="logotxt.png" alt="Logo" style="height: 200px; width: auto;">
+</div>
 
-  <div class="covers">
-
-    <!-- N°1 : titre + infos à gauche, image à droite -->
-    <div class="cover-block">
-      <div class="cover-info">
-        <h3 onclick="this.nextElementSibling.classList.toggle('open')">ANTICHAMBRE N°1 <br>↓</h3>
-        <div class="cover-details">
-          <p>Magazine papier <br> de 100 pages <br> Imprimé en <br>200 exemplaires<br>Année de sortie : 2025</p>
-        </div>
-      </div>
-      <img src="Couv.jpg" alt="Antichambre N°1">
-    </div>
-
-    <!-- N°2 : image à gauche, titre + infos à droite -->
-    <div class="cover-block">
-      <img src="Couv2.jpg" alt="Antichambre N°2">
-      <div class="cover-info">
-        <h3 onclick="this.nextElementSibling.classList.toggle('open')">ANTICHAMBRE N°2 <br>↓</h3>
-        <div class="cover-details">
-          <p>Magazine papier <br> de 100 pages<br>Imprimé en <br> 300 exemplaires<br>Année de sortie : 2026</p>
-        </div>
+<div class="covers">
+  <div class="cover-block">
+    <div class="cover-info">
+      <h3 onclick="this.nextElementSibling.classList.toggle('open')">ANTICHAMBRE N°1 <br>↓</h3>
+      <div class="cover-details">
+        <p>Magazine papier <br> de 100 pages <br> Imprimé en <br>200 exemplaires<br>Année de sortie : 2025</p>
       </div>
     </div>
-
+    <img src="Couv.jpg" alt="Antichambre N°1">
   </div>
+
+  <div class="cover-block">
+    <img src="Couv2.jpg" alt="Antichambre N°2">
+    <div class="cover-info">
+      <h3 onclick="this.nextElementSibling.classList.toggle('open')">ANTICHAMBRE N°2 <br>↓</h3>
+      <div class="cover-details">
+        <p>Magazine papier <br> de 100 pages<br>Imprimé en <br> 300 exemplaires<br>Année de sortie : 2026</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="position: relative; height: 600px; margin-top: 80px; border-top: 1px solid #333;">
+  <img class="drag-img" src="sousbock.png" style="height: 600; top: 80px; left: 200px;">
+</div>
+
+<script>
+document.querySelectorAll('.drag-img').forEach(img => {
+  let offsetX, offsetY;
+
+  img.addEventListener('mousedown', e => {
+    offsetX = e.clientX - img.getBoundingClientRect().left;
+    offsetY = e.clientY - img.getBoundingClientRect().top;
+
+    function onMove(e) {
+      const parent = img.parentElement.getBoundingClientRect();
+      img.style.left = (e.clientX - parent.left - offsetX) + 'px';
+      img.style.top  = (e.clientY - parent.top  - offsetY) + 'px';
+    }
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', () => {
+      document.removeEventListener('mousemove', onMove);
+    }, { once: true });
+  });
+});
+</script>
 
 </body>
 </html>
