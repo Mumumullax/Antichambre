@@ -88,29 +88,31 @@ img {
   </div>
 </div>
 
-<div style="position: relative; height: 600px; margin-top: 80px; border-top: 1px solid #333;">
-  <img class="drag-img" src="sousbock.png" style="height: 600; top: 80px; left: 200px;">
+<div style="position: relative; height: 2000px; margin-top: 80px; border-top: 1px solid #333;">
+  <img class="drag-img" src="sousbock.png" style="height: 600; top: 80px; right: 10
+00px;">
 </div>
 
 <script>
 document.querySelectorAll('.drag-img').forEach(img => {
+  let held = false;
   let offsetX, offsetY;
 
-  img.addEventListener('mousedown', e => {
+  img.addEventListener('click', e => {
+    if (!held) {held = true;
     offsetX = e.clientX - img.getBoundingClientRect().left;
     offsetY = e.clientY - img.getBoundingClientRect().top;
-
-    function onMove(e) {
-      const parent = img.parentElement.getBoundingClientRect();
-      img.style.left = (e.clientX - parent.left - offsetX) + 'px';
-      img.style.top  = (e.clientY - parent.top  - offsetY) + 'px';
+    img.style.cursor = 'grabbing'; } else {
+      held = false;
+      im.style.cursor = 'grab';
     }
-
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', () => {
-      document.removeEventListener('mousemove', onMove);
-    }, { once: true });
   });
+
+  document.addEventListener('mousemove', e => {if (!held) return; 
+  const parent = img.parentElement.getBoundingClientRect ();
+img.style.left = (e.clientX - parent.left - offsetX) + 'px';
+img.style.top = (e.clientY - parent.top - offsetY) + 'px';
+});
 });
 </script>
 
